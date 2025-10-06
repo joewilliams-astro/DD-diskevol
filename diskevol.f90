@@ -11,7 +11,7 @@ program diskevol
   use dust_module
   implicit none
   doubleprecision :: time
-  doubleprecision :: rin,rout,sig0,plsig0,alpha0,alphadust,dt,dtmin,dtrel,timesave,dtold,tinfall
+  doubleprecision :: rin,rout,sig0,plsig0,alpha0,alphadust,dt,dtmin,dtrel,timesave,dtold,tinfall,cloud_mass
   doubleprecision :: tsav0,tend,rdisk0,dtdust,dusttime
   integer :: nr,ir,itsave=0,it,maxstep,nsave,itemp
   logical :: fex,dump,simstop
@@ -47,6 +47,7 @@ program diskevol
   diskevol_cloud_omega         = 5.d-15
   alpha0                       = 1.d-3
   alphadust                    = 1.d-3     !alphadust <= alpha0
+  diskevol_cloud_mass          = MS        ! give in units of MS in .par file
   save_location                = './'
   !
   ! other parameters:
@@ -67,7 +68,6 @@ program diskevol
   diskevol_gravinst            = 1
   diskevol_ginst_plaw          = 7.d0
   diskevol_ginst_qcrit         = 2.0
-  diskevol_cloud_mass          = MS
   diskevol_cloud_ismooth       = 0
   diskevol_cloud_smoothparam1  = 5d-1
   diskevol_cloud_smoothparam2  = 100.*AU
@@ -138,14 +138,19 @@ program diskevol
             case('dust_alpha')
                read(buffer, *, iostat=ios) alphadust
                print *, 'Dust alpha: ', alphadust
+            case('cloud_mass')
+               read(buffer, *, iostat=ios) diskevol_cloud_mass
+               diskevol_cloud_mass = diskevol_cloud_mass * MS
+               print *, 'Cloud mass: ', diskevol_cloud_mass
             case('save_location')
                read(buffer, *, iostat=ios) save_location
-               print *, 'save_location: ', save_location
+               print *, 'save_location: ', TRIM(save_location)
             case default
                print *, 'Skipping invalid label "',label,'" at line', line
             end select
          end if
       end do
+    
   !
   ! Initialize the diskevol_module
   !
