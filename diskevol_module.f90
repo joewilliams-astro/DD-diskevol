@@ -1377,76 +1377,77 @@ contains
   !-------------------------------------------------------------
   ! Reset the save files
   !-------------------------------------------------------------
-  subroutine diskevol_reset_savefiles()
+  subroutine diskevol_reset_savefiles(save_location)
     implicit none
     integer :: ndust=0,ir
-    open(unit=1,file='sigma.dat',status='unknown')
+    character(len=100) :: save_location
+    open(unit=1,file=TRIM(save_location)//'/sigma.dat',status='unknown')
     write(1,*) diskevol_grid_nr,ndust
     close(1)
-    open(unit=1,file='sigmad.dat',status='unknown')
+    open(unit=1,file=TRIM(save_location)//'/sigmad.dat',status='unknown')
     write(1,*) diskevol_grid_nr,ndust
     close(1)
-    open(unit=1,file='sigmaice.dat',status='unknown')
+    open(unit=1,file=TRIM(save_location)//'/sigmaice.dat',status='unknown')
     write(1,*) diskevol_grid_nr,ndust
     close(1)
-    open(unit=1,file='sigmavap.dat',status='unknown')
+    open(unit=1,file=TRIM(save_location)//'/sigmavap.dat',status='unknown')
     write(1,*) diskevol_grid_nr,ndust
     close(1)
-    open(unit=1,file='sigmaplts.dat',status='unknown')
+    open(unit=1,file=TRIM(save_location)//'/sigmaplts.dat',status='unknown')
     write(1,*) diskevol_grid_nr,ndust
     close(1)
-    open(unit=1,file='velo.dat',status='unknown')
+    open(unit=1,file=TRIM(save_location)//'/velo.dat',status='unknown')
     write(1,*) diskevol_grid_nr,ndust
     close(1)
-    open(unit=1,file='vdust.dat',status='unknown')
+    open(unit=1,file=TRIM(save_location)//'/vdust.dat',status='unknown')
     write(1,*) diskevol_grid_nr,ndust
     close(1)
-    open(unit=1,file='mflux.dat',status='unknown')
+    open(unit=1,file=TRIM(save_location)//'/mflux.dat',status='unknown')
     write(1,*) diskevol_grid_nr,ndust
     close(1)
-    open(unit=1,file='vdrift.dat',status='unknown')
+    open(unit=1,file=TRIM(save_location)//'/vdrift.dat',status='unknown')
     write(1,*) diskevol_grid_nr,ndust
     close(1)
-    open(unit=1,file='temperature.dat',status='unknown')
+    open(unit=1,file=TRIM(save_location)//'/temperature.dat',status='unknown')
     write(1,*) diskevol_grid_nr
     close(1)
-    open(unit=1,file='visc.dat',status='unknown')
+    open(unit=1,file=TRIM(save_location)//'/visc.dat',status='unknown')
     write(1,*) diskevol_grid_nr
     close(1)
-    open(unit=1,file='alpha.dat',status='unknown')
+    open(unit=1,file=TRIM(save_location)//'/alpha.dat',status='unknown')
     write(1,*) diskevol_grid_nr
     close(1)
-    open(unit=1,file='mdot.dat',status='unknown')
+    open(unit=1,file=TRIM(save_location)//'/mdot.dat',status='unknown')
     write(1,*) diskevol_grid_nr
     close(1)
-    open(unit=1,file='mstar.dat',status='unknown')
+    open(unit=1,file=TRIM(save_location)//'/mstar.dat',status='unknown')
     write(1,*)
     close(1)
-    open(unit=1,file='infall.dat',status='unknown')
+    open(unit=1,file=TRIM(save_location)//'/infall.dat',status='unknown')
     write(1,*)
     close(1)
-    open(unit=1,file='infall2.dat',status='unknown')
+    open(unit=1,file=TRIM(save_location)//'/infall2.dat',status='unknown')
     write(1,*)
     close(1)
-    open(unit=1,file='time.dat',status='unknown')
+    open(unit=1,file=TRIM(save_location)//'/time.dat',status='unknown')
     write(1,*)
     close(1)
-    open(unit=1,file='dustsize.dat',status='unknown')
+    open(unit=1,file=TRIM(save_location)//'/dustsize.dat',status='unknown')
     write(1,*) diskevol_grid_nr
     close(1)
-    open(unit=1,file='stokesnr.dat',status='unknown')
+    open(unit=1,file=TRIM(save_location)//'/stokesnr.dat',status='unknown')
     write(1,*) diskevol_grid_nr
     close(1)
-    open(unit=1,file='stfrag.dat',status='unknown')
+    open(unit=1,file=TRIM(save_location)//'/stfrag.dat',status='unknown')
     write(1,*) diskevol_grid_nr
     close(1)
-    open(unit=1,file='stdf.dat',status='unknown')
+    open(unit=1,file=TRIM(save_location)//'/stdf.dat',status='unknown')
     write(1,*) diskevol_grid_nr
     close(1)
-    open(unit=1,file='stdrift.dat',status='unknown')
+    open(unit=1,file=TRIM(save_location)//'/stdrift.dat',status='unknown')
     write(1,*) diskevol_grid_nr
     close(1)
-    open(unit=1,file='etamid.dat',status='unknown')
+    open(unit=1,file=TRIM(save_location)//'/etamid.dat',status='unknown')
     write(1,*) diskevol_grid_nr
     close(1)
     !
@@ -1463,14 +1464,16 @@ contains
   !--------------------------------------------------------------
   !                 SAVE THE DATA BY APPENDING TO FILE
   !--------------------------------------------------------------
-  subroutine save_data(time,isave)
+  subroutine save_data(time,isave,save_location)
     implicit none
     integer :: ir,isave
     doubleprecision :: time
+    character(len=100) :: save_location
     !
     write(*,*) 'Saving at time ',time/year,' year'
     !
-    open(unit=1,file='sigma.dat',status='unknown',access='append')
+    write(*,*) 'Saving in location ',save_location
+    open(unit=1,file=TRIM(save_location)//'/sigma.dat',status='unknown',access='append')
     write(1,*)
     do ir=1,diskevol_grid_nr
        write(1,10) diskevol_tprsigma(ir)/(2*pi*diskevol_grid_r(ir))+1.d-98
@@ -1479,7 +1482,7 @@ contains
     enddo
     close(1)
     !
-    open(unit=1,file='sigmad.dat',status='unknown',access='append')
+    open(unit=1,file=TRIM(save_location)//'/sigmad.dat',status='unknown',access='append')
     write(1,*)
     do ir=1,nshift
        write(1,10) 1.d-28
@@ -1489,7 +1492,7 @@ contains
     enddo
     close(1)
     !
-    open(unit=1,file='sigmaice.dat',status='unknown',access='append')
+    open(unit=1,file=TRIM(save_location)//'/sigmaice.dat',status='unknown',access='append')
     write(1,*)
     do ir=1,nshift
        write(1,10) 5.d-29
@@ -1499,7 +1502,7 @@ contains
     enddo
     close(1)
     !
-    open(unit=1,file='sigmavap.dat',status='unknown',access='append')
+    open(unit=1,file=TRIM(save_location)//'/sigmavap.dat',status='unknown',access='append')
     write(1,*)
     do ir=1,nshift
        write(1,10) 5.d-29
@@ -1509,7 +1512,7 @@ contains
     enddo
     close(1)
     !
-    open(unit=1,file='sigmaplts.dat',status='unknown',access='append')
+    open(unit=1,file=TRIM(save_location)//'/sigmaplts.dat',status='unknown',access='append')
     write(1,*)
     do ir=1,nshift
        write(1,10) 1.d-28
@@ -1519,7 +1522,7 @@ contains
     enddo
     close(1)
     !
-    open(unit=1,file='dustsize.dat',status='unknown',access='append')
+    open(unit=1,file=TRIM(save_location)//'/dustsize.dat',status='unknown',access='append')
     write(1,*)
     do ir=1,nshift
        write(1,10) 1.d-28
@@ -1529,7 +1532,7 @@ contains
     enddo
     close(1)
     !
-    open(unit=1,file='stokesnr.dat',status='unknown',access='append')
+    open(unit=1,file=TRIM(save_location)//'/stokesnr.dat',status='unknown',access='append')
     write(1,*)
     do ir=1,nshift
        write(1,10) 1.d-28
@@ -1539,7 +1542,7 @@ contains
     enddo
     close(1)
     !
-    open(unit=1,file='stfrag.dat',status='unknown',access='append')
+    open(unit=1,file=TRIM(save_location)//'/stfrag.dat',status='unknown',access='append')
     write(1,*)
     do ir=1,nshift
        write(1,10) 1.d-28
@@ -1549,7 +1552,7 @@ contains
     enddo
     close(1)
     !
-    open(unit=1,file='stdf.dat',status='unknown',access='append')
+    open(unit=1,file=TRIM(save_location)//'/stdf.dat',status='unknown',access='append')
     write(1,*)
     do ir=1,nshift
        write(1,10) 1.d-28
@@ -1559,7 +1562,7 @@ contains
     enddo
     close(1)
     !
-    open(unit=1,file='stdrift.dat',status='unknown',access='append')
+    open(unit=1,file=TRIM(save_location)//'/stdrift.dat',status='unknown',access='append')
     write(1,*)
     do ir=1,nshift
        write(1,10) 1.d-28
@@ -1569,7 +1572,7 @@ contains
     enddo
     close(1)
     !
-    open(unit=1,file='etamid.dat',status='unknown',access='append')
+    open(unit=1,file=TRIM(save_location)//'/etamid.dat',status='unknown',access='append')
     write(1,*)
     do ir=1,nshift
        write(1,10) 1.d-28
@@ -1579,7 +1582,7 @@ contains
     enddo
     close(1)
     !
-    open(unit=1,file='vdust.dat',status='unknown',access='append')
+    open(unit=1,file=TRIM(save_location)//'/dust.dat',status='unknown',access='append')
     write(1,*)
     do ir=1,nshift
        write(1,10) 0.d0
@@ -1589,7 +1592,7 @@ contains
     enddo
     close(1)
     !
-    open(unit=1,file='mflux.dat',status='unknown',access='append')
+    open(unit=1,file=TRIM(save_location)//'/mflux.dat',status='unknown',access='append')
     write(1,*)
     do ir=1,nshift
        write(1,10) 0.d0
@@ -1599,7 +1602,7 @@ contains
     enddo
     close(1)
     !
-    open(unit=1,file='vdrift.dat',status='unknown',access='append')
+    open(unit=1,file=TRIM(save_location)//'/vdrift.dat',status='unknown',access='append')
     write(1,*)
     do ir=1,nshift
        write(1,10) 0.d0
@@ -1609,58 +1612,58 @@ contains
     enddo
     close(1)
     !
-    open(unit=1,file='velo.dat',status='unknown',access='append')
+    open(unit=1,file=TRIM(save_location)//'/velo.dat',status='unknown',access='append')
     write(1,*)
     do ir=1,diskevol_grid_nr
        write(1,10) diskevol_vr(ir)
     enddo
     close(1)
     !
-    open(unit=1,file='temperature.dat',status='unknown',access='append')
+    open(unit=1,file=TRIM(save_location)//'/temperature.dat',status='unknown',access='append')
     write(1,*)
     do ir=1,diskevol_grid_nr
        write(1,10) diskevol_temp(ir)
     enddo
     close(1)
     !
-    open(unit=1,file='visc.dat',status='unknown',access='append')
+    open(unit=1,file=TRIM(save_location)//'/visc.dat',status='unknown',access='append')
     write(1,*)
     do ir=1,diskevol_grid_nr
        write(1,10) diskevol_nu(ir)
     enddo
     close(1)
     !
-    open(unit=1,file='alpha.dat',status='unknown',access='append')
+    open(unit=1,file=TRIM(save_location)//'/alpha.dat',status='unknown',access='append')
     write(1,*)
     do ir=1,diskevol_grid_nr
        write(1,10) diskevol_alpnew(ir)
     enddo
     close(1)
     !
-    open(unit=1,file='mdot.dat',status='unknown',access='append')
+    open(unit=1,file=TRIM(save_location)//'/mdot.dat',status='unknown',access='append')
     write(1,*)
     do ir=1,diskevol_grid_nr
        write(1,10) diskevol_mdot(ir)
     enddo
     close(1)
     !
-    open(unit=1,file='mstar.dat',status='unknown',access='append')
+    open(unit=1,file=TRIM(save_location)//'/mstar.dat',status='unknown',access='append')
     write(1,10) diskevol_mstar
     close(1)
     !
-    open(unit=1,file='infall.dat',status='unknown',access='append')
+    open(unit=1,file=TRIM(save_location)//'/infall.dat',status='unknown',access='append')
     write(1,11) ml_mdotcap,ml_rcentr
     close(1)
     !
-    open(unit=1,file='infall2.dat',status='unknown',access='append')
+    open(unit=1,file=TRIM(save_location)//'/infall2.dat',status='unknown',access='append')
     write(1,11) ml_mdot
     close(1)
     !
-    open(unit=1,file='time.dat',status='unknown',access='append')
+    open(unit=1,file=TRIM(save_location)//'/time.dat',status='unknown',access='append')
     write(1,10) time
     close(1)
     !
-    open(unit=1,file='time.info',status='unknown')
+    open(unit=1,file=TRIM(save_location)//'/time.info',status='unknown')
     write(1,*) isave
     close(1)
     !
