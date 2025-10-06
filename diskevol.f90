@@ -150,6 +150,10 @@ program diskevol
             end select
          end if
       end do
+  !
+  ! Make the save directory
+  !
+  call system('mkdir '// TRIM(save_location))
     
   !
   ! Initialize the diskevol_module
