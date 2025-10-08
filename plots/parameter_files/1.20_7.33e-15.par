@@ -8,4 +8,4 @@ dust_alpha                                1.d-5
 cloud_mass                                1.2000
 star_temperature                          4768.0
 star_radius                               1.347
-save_location                             stellar_evol/1.20_7.33e-15
+save_location                             stellar_evol_1.20_7.33e-15
