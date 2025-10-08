@@ -1,0 +1,11 @@
+number_of_radial_zones                    1400
+gas_to_dust                               100.
+flaring_angle                             0.05
+background_temperature                    10.
+cloud_omega                               7.3264d-15
+viscous_alpha                             1.d-3
+dust_alpha                                1.d-5
+cloud_mass                                1.2000
+star_temperature                          4768.0
+star_radius                               1.347
+save_location                             stellar_evol/1.20_7.33e-15
