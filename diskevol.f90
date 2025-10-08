@@ -48,13 +48,13 @@ program diskevol
   alpha0                       = 1.d-3
   alphadust                    = 1.d-3     !alphadust <= alpha0
   diskevol_cloud_mass          = MS        ! give in units of MS in .par file
+  diskevol_rstar               = RS        ! ibid but MS
+  diskevol_tstar               = TS        ! ibid but TS
   save_location                = './'
   !
   ! other parameters:
   !
   diskevol_mstar               = 1.d-4*MS
-  diskevol_rstar               = RS
-  diskevol_tstar               = TS
   diskevol_mugas               = 2.3
   diskevol_sigma_min           = 1d-20
   diskevol_isw_qvisc           = 1
@@ -72,7 +72,7 @@ program diskevol
   diskevol_cloud_smoothparam1  = 5d-1
   diskevol_cloud_smoothparam2  = 100.*AU
   diskevol_cloud_idistr        = 1
-  rin                          = 60.*RS
+  rin                          = 10.*RS
   rout                         = 10*pc
   sig0                         = 1.d-10
   plsig0                       = -1.0d0
@@ -142,6 +142,14 @@ program diskevol
                read(buffer, *, iostat=ios) diskevol_cloud_mass
                diskevol_cloud_mass = diskevol_cloud_mass * MS
                print *, 'Cloud mass: ', diskevol_cloud_mass
+            case('star_radius')
+               read(buffer, *, iostat=ios) diskevol_rstar
+               diskevol_rstar = diskevol_rstar * RS
+               print *, 'Star radius: ', diskevol_rstar
+            case('star_temperature')
+               read(buffer, *, iostat=ios) diskevol_tstar
+               diskevol_tstar = diskevol_tstar
+               print *, 'Star temperature: ', diskevol_tstar
             case('save_location')
                read(buffer, *, iostat=ios) save_location
                print *, 'save_location: ', TRIM(save_location)
