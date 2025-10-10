@@ -162,6 +162,12 @@ program diskevol
   ! Make the save directory
   !
   call system('mkdir '// TRIM(save_location))
+  !
+  ! Print some parameters for debugging
+  !
+  print *, '--------------------- Debugging ---------------------'
+  print *, 'Star radius: ', diskevol_rstar
+  print *, 'Star temperature: ', diskevol_tstar
     
   !
   ! Initialize the diskevol_module
