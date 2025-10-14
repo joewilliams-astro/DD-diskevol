@@ -72,7 +72,7 @@ program diskevol
   diskevol_cloud_smoothparam1  = 5d-1
   diskevol_cloud_smoothparam2  = 100.*AU
   diskevol_cloud_idistr        = 1
-  rin                          = 10.*RS
+  rin                          = 60.*RS
   rout                         = 10*pc
   sig0                         = 1.d-10
   plsig0                       = -1.0d0
@@ -80,7 +80,8 @@ program diskevol
   maxstep                      = 100000000
   dtmin                        = 1*year
   dtrel                        = 0.00001
-  tinfall                      = 1.3d5*year  ! starting from this time, outputs are dumped more often
+!   tinfall                      = 1.3d5*year  ! starting from this time, outputs are dumped more often
+  tinfall                      = 1d3*year
   tsav0                        = 1d2*year  ! the first output time
   tend                         = 5d6*year  ! end time of the simulation
   nsave                        = 200
@@ -273,7 +274,7 @@ program diskevol
         !
         itsave   = itsave + 1
         if (time < tinfall) then
-           timesave = timesave * 10.
+           timesave = timesave * 10.    ! Makes outputs at 1e-4, 1e-3, 1e-2 Myr until tinfall
            if (timesave > tinfall) timesave = tinfall
         else
            timesave = tinfall * (tend/tinfall)**((itsave-1.d0)/(nsave-1.d0))
