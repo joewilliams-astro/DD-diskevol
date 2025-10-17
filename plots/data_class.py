@@ -14,7 +14,10 @@ class simulation():
         for file in files:
             data = self.read_data(file, directory)
             setattr(self, file, data)
-        self.rgrid = pd.read_csv(directory+'../grid.info').values[:,0]
+        try:
+            self.rgrid = pd.read_csv(directory+'/grid.info').values[:,0]
+        except:
+            print(f'Cannot read rgrid! Directory: {directory}')
     
 
     def read_data(self, file, directory):

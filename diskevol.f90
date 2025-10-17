@@ -72,7 +72,8 @@ program diskevol
   diskevol_cloud_smoothparam1  = 5d-1
   diskevol_cloud_smoothparam2  = 100.*AU
   diskevol_cloud_idistr        = 1
-  rin                          = 60.*RS
+!   rin                          = 60.*RS   ! Defined below parameter read-in
+!   rin                          = 0.1 * au
   rout                         = 10*pc
   sig0                         = 1.d-10
   plsig0                       = -1.0d0
@@ -83,7 +84,7 @@ program diskevol
 !   tinfall                      = 1.3d5*year  ! starting from this time, outputs are dumped more often
   tinfall                      = 1d3*year
   tsav0                        = 1d2*year  ! the first output time
-  tend                         = 5d6*year  ! end time of the simulation
+  tend                         = 1d6*year  ! end time of the simulation
   nsave                        = 200
   !
   ! Identify the control file
@@ -160,6 +161,11 @@ program diskevol
          end if
       end do
   !
+  ! Define inner radius based on star radius
+  !
+  rin                          = 40.*diskevol_rstar
+  
+  !
   ! Make the save directory
   !
   call system('mkdir '// TRIM(save_location))
@@ -169,7 +175,8 @@ program diskevol
   print *, '--------------------- Debugging ---------------------'
   print *, 'Star radius: ', diskevol_rstar
   print *, 'Star temperature: ', diskevol_tstar
-    
+  print *, 'Inner grid radius: ', rin/au
+
   !
   ! Initialize the diskevol_module
   !
