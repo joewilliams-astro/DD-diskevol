@@ -1451,7 +1451,7 @@ contains
     write(1,*) diskevol_grid_nr
     close(1)
     !
-    open(unit=1,file=TRIM(save_location)//'grid.info',status='unknown')
+    open(unit=1,file=TRIM(save_location)//'/grid.info',status='unknown')
     write(1,*) diskevol_grid_nr
     write(1,*)
     do ir=1,diskevol_grid_nr
