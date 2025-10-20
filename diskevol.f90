@@ -84,7 +84,7 @@ program diskevol
 !   tinfall                      = 1.3d5*year  ! starting from this time, outputs are dumped more often
   tinfall                      = 1d3*year
   tsav0                        = 1d2*year  ! the first output time
-  tend                         = 1d6*year  ! end time of the simulation
+  tend                         = 5d6*year  ! end time of the simulation
   nsave                        = 200
   !
   ! Identify the control file
